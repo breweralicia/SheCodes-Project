@@ -12,6 +12,19 @@
       let degree = document.querySelector(".switching");
       let getTemp = Math.round(responce.data.main.temp);
       degree.innerHTML = getTemp + "℃";
+        if (degree.textContent === "℃") {
+          degree.innerHTML = getTemp + "℉";
+        } else {
+          degree.innerHTML = getTemp + "℃";
+        }
+
+      let descriptionElement = document.querySelector("#description")
+        descriptionElement.innerHTML = responce.data.weather[0].description;
+      let preciptionElement = document.querySelector("#perciption")
+        preciptionElement.innerHTML = responce.data.rain + "%";
+      let windspeedElement = document.querySelector("#windspeed")
+        windspeedElement.innerHTML = responce.data.wind.speed + "mph";
+      console.log(responce.data)
     }
 
     function searchCity(event){
@@ -22,8 +35,7 @@
       let apiKey = "09b098f13ff58f7d89c2ad3402c3b557";
       let city = searchInput.value;
       let apiUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=metric";
-      
-      axios.get(apiUrl + "&appid=" + apiKey).then(showTemperature);
+        axios.get(apiUrl + "&appid=" + apiKey).then(showTemperature);
     }
     let form = document.querySelector("#search-form");
     form. addEventListener("submit", searchCity)
@@ -39,6 +51,3 @@
     }
     let convertDegree = document.querySelector("a")
     convertDegree.addEventListener("click", switchingDegrees);
-
-    
-   
