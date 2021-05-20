@@ -24,7 +24,10 @@
         preciptionElement.innerHTML = responce.data.rain + "%";
       let windspeedElement = document.querySelector("#windspeed")
         windspeedElement.innerHTML = responce.data.wind.speed + "mph";
-      console.log(responce.data)
+      let weatherIconElement = document.querySelector("#icon")
+        weatherIconElement.setAttribute("src", "http://openweathermap.org/img/wn/" + responce.data.weather[0].icon + "@2x.png");
+        weatherIconElement.setAttribute("alt", responce.data.weather[0].description);
+        console.log(responce.data)
     }
 
     function searchCity(event){
