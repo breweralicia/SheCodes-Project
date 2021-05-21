@@ -9,25 +9,23 @@
     displayTimeDay();
 
     function showTemperature(responce) {
-      let degree = document.querySelector(".switching");
-      let getTemp = Math.round(responce.data.main.temp);
-      degree.innerHTML = getTemp + "℃";
-        if (degree.textContent === "℃") {
-          degree.innerHTML = getTemp + "℉";
-        } else {
-          degree.innerHTML = getTemp + "℃";
-        }
-
-      let descriptionElement = document.querySelector("#description")
+      let descriptionElement = document.querySelector("#description");
         descriptionElement.innerHTML = responce.data.weather[0].description;
-      let preciptionElement = document.querySelector("#perciption")
+      let preciptionElement = document.querySelector("#perciption");
         preciptionElement.innerHTML = responce.data.rain + "%";
-      let windspeedElement = document.querySelector("#windspeed")
+      let windspeedElement = document.querySelector("#windspeed");
         windspeedElement.innerHTML = responce.data.wind.speed + "mph";
-      let weatherIconElement = document.querySelector("#icon")
+      let weatherIconElement = document.querySelector("#icon");
         weatherIconElement.setAttribute("src", "http://openweathermap.org/img/wn/" + responce.data.weather[0].icon + "@2x.png");
         weatherIconElement.setAttribute("alt", responce.data.weather[0].description);
-        console.log(responce.data)
+      // getting ℃ degree 
+        celsiusTemperature = responce.data.main.temp;
+
+      let getDegree = document.querySelector(".degree");
+      let getTemp = Math.round(celsiusTemperature);
+       getDegree.innerHTML = getTemp;
+      // getting ALL weather data
+        // console.log(responce.data);
     }
 
     function searchCity(event){
@@ -41,16 +39,24 @@
         axios.get(apiUrl + "&appid=" + apiKey).then(showTemperature);
     }
     let form = document.querySelector("#search-form");
-    form. addEventListener("submit", searchCity)
+    form. addEventListener("submit", searchCity);
 
-    function switchingDegrees(event){
+    function showFahrenheitTemperature(event) {
       event.preventDefault();
-      let link = document.querySelector("a");
-        if (link.textContent === "to℉") {
-          link.innerHTML = "to℃";
-        } else {
-          link.innerHTML = "to℉";
-        }
+      let fahrenheitTemperature = (celsiusTemperature * 9) / 5 + 32;
+      let temperatureElement = document.querySelector(".degree");
+       temperatureElement.innerHTML = Math.round(fahrenheitTemperature);
     }
-    let convertDegree = document.querySelector("a")
-    convertDegree.addEventListener("click", switchingDegrees);
+    let celsiusTemperature = null;
+
+    let fahrenheitLink = document.querySelector("#switching-fahrenheit");
+    fahrenheitLink.addEventListener("click", showFahrenheitTemperature);
+
+    function showcelsiusTemperature(event) {
+      event.preventDefault();
+      let temperatureElement = document.querySelector(".degree");
+      temperatureElement.innerHTML = Math.round(celsiusTemperature);
+
+    }
+    let celsiusLink = document.querySelector("#switching-celsius");
+    celsiusLink.addEventListener("click", showcelsiusTemperature);

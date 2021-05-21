@@ -3,10 +3,26 @@ input {
 }
 
 h1,
-p,
 h3 {
   padding: 20px;
   text-align: center;
+}
+
+.active {
+  color: black;
+  cursor: default;
+}
+.active:hover {
+  text-decoration: none;
+}
+
+.degree {
+  font-size: 30px;
+}
+
+.unites,
+.switching-fahrenheit {
+  font-size: 15px;
 }
 
 i {
@@ -25,11 +41,6 @@ h3 {
   text-align: center;
   font-size: 30px;
   font-family: "Open Sans", sans-serif;
-}
-
-.switching-degrees {
-  color: black;
-  font-size: 15px;
 }
 
 .github {
