@@ -1,5 +1,5 @@
 input {
-  background-color: whitesmoke;
+  color: #ededd0;
 }
 
 h1,
@@ -55,5 +55,5 @@ li {
 }
 
 body {
-  background: linear-gradient(to left, #d4f7ee, #ededd0);
+  background: linear-gradient(to left, white, #ededd0);
 }
