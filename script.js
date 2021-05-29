@@ -8,6 +8,32 @@
     }
     displayTimeDay();
 
+    function displayForcast() {
+      let forcastElement = document.querySelector("#forcast")
+
+      let forcastHTML = `<div class="row">`;
+      let days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday",]
+      days.forEach(function(day){
+        forcastHTML = forcastHTML + `
+            <div class="col">
+              <div class="forcast-dates">${day}</div>
+                <img src="#" alt="" id="forcast-icon"><i class="fas fa-cloud"></i>
+              <div class="forcast-temp">
+                <span class="forcast-temp-max">
+                  76°
+                </span>
+                <span class="forcast-temp-min">
+                  48°
+                </span>
+              </div>
+            </div>
+          `;
+          forcastHTML = forcastHTML + `</div>`
+      }) 
+      
+      forcastElement.innerHTML = forcastHTML;
+    }
+
     function showTemperature(responce) {
       let descriptionElement = document.querySelector("#description");
         descriptionElement.innerHTML = responce.data.weather[0].description;
@@ -18,13 +44,16 @@
       let weatherIconElement = document.querySelector("#icon");
         weatherIconElement.setAttribute("src", "http://openweathermap.org/img/wn/" + responce.data.weather[0].icon + "@2x.png");
         weatherIconElement.setAttribute("alt", responce.data.weather[0].description);
-      // getting ℃ degree 
+      // Getting ℃ degree 
         celsiusTemperature = responce.data.main.temp;
 
       let getDegree = document.querySelector(".degree");
       let getTemp = Math.round(celsiusTemperature);
        getDegree.innerHTML = getTemp;
-      // getting ALL weather data
+
+      // Getting the Forcast
+        displayForcast();
+
         // console.log(responce.data);
     }
 
@@ -64,3 +93,5 @@
     }
     let celsiusLink = document.querySelector("#switching-celsius");
     celsiusLink.addEventListener("click", showcelsiusTemperature);
+
+    

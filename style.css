@@ -43,9 +43,30 @@ h3 {
   font-family: "Open Sans", sans-serif;
 }
 
+.forcast-dates {
+  color: blue;
+  font-size: 25px;
+}
+
+i .forcast-icon {
+  font-size: 30px;
+  color: green;
+}
+
+.forcast-temp {
+  color: red;
+  font-size: 20px;
+}
+.forcast-temp-min {
+  color: grey;
+  opacity: 0.5;
+}
+
 .github {
   color: black;
   font-size: 20px;
+  text-align: center;
+  display: block;
 }
 
 li {
