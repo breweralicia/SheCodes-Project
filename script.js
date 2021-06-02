@@ -8,37 +8,50 @@
     }
     displayTimeDay();
 
-    function displayForcast() {
-      let forcastElement = document.querySelector("#forcast")
+    function formatDay(timestamp) {
+      let date = new Date(timestamp * 1000);
+      let day = date.getDay();
+      let days = ["Sun", "Mon", "Tues", "Wed", "Thur", "Fri", "Sat"]; 
+      return days[day];
+    }
 
+    function displayForcast(response) {
+      //console.log(response);
+      let forcast = response.data.daily;
+
+      let forcastElement = document.querySelector("#forcast");
+      
       let forcastHTML = `<div class="row">`;
-      let days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday",]
-      days.forEach(function(day){
-        forcastHTML = forcastHTML + `
-            <div class="col">
-              <div class="forcast-dates">${day}</div>
-                <img src="#" alt="" id="forcast-icon"><i class="fas fa-cloud"></i>
+      forcast.forEach(function(forcastDay, index) {
+        if (index < 6) { 
+        forcastHTML += `
+            <div class="col-2">
+              <div class="forcast-dates">${formatDay(forcastDay.dt)}</div>
+                <img src="http://openweathermap.org/img/wn/${forcastDay.weather[0].icon}@2x.png") alt="">
               <div class="forcast-temp">
-                <span class="forcast-temp-max">
-                  76°
-                </span>
-                <span class="forcast-temp-min">
-                  48°
-                </span>
+                <span class="forcast-temp-max">${Math.round(forcastDay.temp.max)}°</span>
+                <span class="forcast-temp-min">${Math.round(forcastDay.temp.min)}°</span>
               </div>
             </div>
           `;
-          forcastHTML = forcastHTML + `</div>`
+        }
       }) 
-      
+      forcastHTML += `</div>`
       forcastElement.innerHTML = forcastHTML;
+    }
+
+    function getForcast(coordinates) {
+      //console.log(coordinates);
+      let apiKey = "09b098f13ff58f7d89c2ad3402c3b557";
+      let apiURL = `https://api.openweathermap.org/data/2.5/onecall?lat=${coordinates.lat}&lon=${coordinates.lon}&appid=${apiKey}&units=metric`;
+      axios.get(apiURL).then(displayForcast);
     }
 
     function showTemperature(responce) {
       let descriptionElement = document.querySelector("#description");
         descriptionElement.innerHTML = responce.data.weather[0].description;
-      let preciptionElement = document.querySelector("#perciption");
-        preciptionElement.innerHTML = responce.data.rain + "%";
+      let humidityElement = document.querySelector("#humidity");
+        humidityElement.innerHTML = responce.data.main.humidity + "%";
       let windspeedElement = document.querySelector("#windspeed");
         windspeedElement.innerHTML = responce.data.wind.speed + "mph";
       let weatherIconElement = document.querySelector("#icon");
@@ -46,18 +59,15 @@
         weatherIconElement.setAttribute("alt", responce.data.weather[0].description);
       // Getting ℃ degree 
         celsiusTemperature = responce.data.main.temp;
-
       let getDegree = document.querySelector(".degree");
       let getTemp = Math.round(celsiusTemperature);
        getDegree.innerHTML = getTemp;
-
       // Getting the Forcast
-        displayForcast();
-
-        // console.log(responce.data);
+        // displayForcast(); // needs to call the responce.data.daily
+        getForcast(responce.data.coord);
     }
 
-    function searchCity(event){
+    function searchCity(event) {
       event.preventDefault();
       let searchInput = document.querySelector("#search-text-input");
       let h1 = document.querySelector("h1");
@@ -79,7 +89,6 @@
        temperatureElement.innerHTML = Math.round(fahrenheitTemperature);
     }
     let celsiusTemperature = null;
-
     let fahrenheitLink = document.querySelector("#switching-fahrenheit");
     fahrenheitLink.addEventListener("click", showFahrenheitTemperature);
 
@@ -89,7 +98,6 @@
       fahrenheitLink.classList.remove("active")
       let temperatureElement = document.querySelector(".degree");
       temperatureElement.innerHTML = Math.round(celsiusTemperature);
-
     }
     let celsiusLink = document.querySelector("#switching-celsius");
     celsiusLink.addEventListener("click", showcelsiusTemperature);
